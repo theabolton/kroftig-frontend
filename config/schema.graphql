@@ -1,0 +1,53 @@
+type LogCommit implements Node {
+  # The ID of the object.
+  id: ID!
+  oid: String
+  message: String
+}
+
+type LogCommitConnection {
+  pageInfo: PageInfo!
+  edges: [LogCommitEdge]!
+}
+
+type LogCommitEdge {
+  # The item at the end of the edge
+  node: LogCommit
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# An object with an ID
+interface Node {
+  # The ID of the object.
+  id: ID!
+}
+
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  # The ID of the object
+  node(id: ID!): Node
+  repo: Repo
+}
+
+type Repo implements Node {
+  # The ID of the object.
+  id: ID!
+  branch: String
+  commits(before: String, after: String, first: Int, last: Int): LogCommitConnection
+}
+

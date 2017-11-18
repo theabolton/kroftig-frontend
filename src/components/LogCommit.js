@@ -1,4 +1,4 @@
-// Kroftig frontend src/components/Log.js
+// Kroftig frontend src/components/LogCommit.js
 //
 // Copyright © 2017 Sean Bolton.
 //
@@ -23,46 +23,25 @@
 
 import React, { Component } from 'react';
 import {
-  QueryRenderer,
+  createFragmentContainer,
   graphql
 } from 'react-relay';
 
-import environment from '../Environment';
-import LogCommitList from './LogCommitList';
-
-const LogQuery = graphql`
-  query LogQuery {
-    repo {
-      branch
-      ...LogCommitList_repo
-    }
-  }
-`;
-
-class Log extends Component {
+class LogCommit extends Component {
 
   render() {
     return (
-      <QueryRenderer
-        environment={environment}
-        query={LogQuery}
-        render={({error, props}) => {
-          if (error) {
-            return <div>{error.message}</div>;
-          } else if (props) {
-            return (
-              <div>
-                <span>Branch name: {props.repo.branch}</span>
-                <LogCommitList repo={props.repo} />
-              </div>
-            );
-          }
-          return <div>Loading...</div>;
-        }}
-      />
+      <div>
+        <div>{this.props.commit.oid.slice(0,7)} {this.props.commit.message}</div>
+      </div>
     );
   }
 
 }
 
-export default Log;
+export default createFragmentContainer(LogCommit, graphql`
+  fragment LogCommit_commit on LogCommit {
+    oid
+    message
+  }
+`);
