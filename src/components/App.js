@@ -28,7 +28,9 @@ import Log from './Log';
 class App extends Component {
   render() {
     return (
-      <Log />
+      <div className="container-fluid fluid-margined">
+        <Log />
+      </div>
     );
   }
 }

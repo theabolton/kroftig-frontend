@@ -26,6 +26,9 @@ import {
   createFragmentContainer,
   graphql
 } from 'react-relay';
+import {
+  Table
+} from 'react-bootstrap';
 
 import LogCommit from './LogCommit';
 
@@ -33,11 +36,13 @@ class LogCommitList extends Component {
 
   render() {
     return (
-      <div>
-        {this.props.repo.commits.edges.map(({node}) =>
-            <LogCommit key={node.__id} commit={node} />
-        )}
-      </div>
+      <Table condensed>
+        <tbody>
+          {this.props.repo.commits.edges.map(({node}) =>
+              <LogCommit key={node.__id} commit={node} />
+          )}
+        </tbody>
+      </Table>
     );
   }
 

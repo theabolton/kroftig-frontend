@@ -1,3 +1,6 @@
+# Babel/React
+src/components/__generated__/
+
 # dependencies
 /node_modules
 

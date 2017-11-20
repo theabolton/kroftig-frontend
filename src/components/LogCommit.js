@@ -31,9 +31,10 @@ class LogCommit extends Component {
 
   render() {
     return (
-      <div>
-        <div>{this.props.commit.oid.slice(0,7)} {this.props.commit.message}</div>
-      </div>
+      <tr>
+        <td><samp>{this.props.commit.oid.slice(0,7)}</samp></td>
+        <td>{this.props.commit.message}</td>
+      </tr>
     );
   }
 
