@@ -36,7 +36,7 @@ class LogCommitList extends Component {
 
   render() {
     return (
-      <Table condensed>
+      <Table condensed style={{width: 'auto'}}>
         <tbody>
           {this.props.repo.commits.edges.map(({node}) =>
               <LogCommit key={node.__id} commit={node} />

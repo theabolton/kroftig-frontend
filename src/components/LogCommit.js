@@ -30,10 +30,17 @@ import {
 class LogCommit extends Component {
 
   render() {
+    let author = this.props.commit.author;
+    let committer = this.props.commit.committer;
+    if (author !== committer) {
+      author += ' (c: ' + committer + ')';
+    }
     return (
       <tr>
         <td><samp>{this.props.commit.oid.slice(0,7)}</samp></td>
         <td>{this.props.commit.message}</td>
+        <td>{author}</td>
+        <td>{this.props.commit.atime}</td>
       </tr>
     );
   }
@@ -44,5 +51,8 @@ export default createFragmentContainer(LogCommit, graphql`
   fragment LogCommit_commit on LogCommit {
     oid
     message
+    author
+    committer
+    atime
   }
 `);

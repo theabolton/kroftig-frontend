@@ -3,6 +3,9 @@ type LogCommit implements Node {
   id: ID!
   oid: String
   message: String
+  author: String
+  committer: String
+  atime: String
 }
 
 type LogCommitConnection {
