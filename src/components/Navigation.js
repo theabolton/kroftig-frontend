@@ -1,4 +1,4 @@
-// Kroftig frontend src/components/App.js
+// Kroftig frontend src/components/Navigation.js
 //
 // Copyright © 2017 Sean Bolton.
 //
@@ -22,23 +22,20 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import { Panel } from 'react-bootstrap';
 
-import Log from './Log';
-import Navigation from './Navigation';
-
-class App extends Component {
+class Navigation extends Component {
   render() {
-    //      <Route exact path="/create" component={CreateLink}/>
     return (
-      <div className="container-fluid fluid-margined">
-        <Navigation />
-        <Switch>
-          <Route exact path="/" component={Log}/>
-        </Switch>
-      </div>
+      <Panel>
+        <div>Navigation</div>
+        <Link to="/">new</Link>
+        <Link to="/create">create</Link>
+      </Panel>
     );
   }
 }
 
-export default App;
+export default withRouter(Navigation);
