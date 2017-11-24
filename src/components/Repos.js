@@ -27,6 +27,7 @@ import {
   QueryRenderer,
   graphql
 } from 'react-relay';
+import { Table } from 'react-bootstrap';
 
 import environment from '../Environment';
 
@@ -52,16 +53,20 @@ class Repos extends Component {
             return <div>{error.message}</div>;
           } else if (props) {
             return (
-              <div>
-                <p>Repositories:</p>
-                <ul>
+              <Table condensed style={{width: 'auto'}}>
+                <thead><tr><th colSpan={2}>Repositories:</th></tr></thead>
+                <tbody>
                   {props.repos.map((repo) =>
-                    <li key={repo.name}>
-                      Repository: <Link to={'/browse/' + repo.name}>{repo.name}</Link>
-                    </li>
+                    <tr key={repo.name}>
+                      <td><Link to={'/browse/' + repo.name}>{repo.name}</Link></td>
+                      <td>
+                        <div>{repo.description}</div>
+                        <div>{repo.path}</div>
+                      </td>
+                    </tr>
                   )}
-                </ul>
-              </div>
+                </tbody>
+              </Table>
             );
           }
           return <div>Loading...</div>;
