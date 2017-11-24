@@ -31,9 +31,9 @@ import environment from '../Environment';
 import LogCommitList from './LogCommitList';
 
 const LogQuery = graphql`
-  query LogQuery {
-    repo {
-      branch
+  query LogQuery($name: String!) {
+    repo(name: $name) {
+      currentBranch
       ...LogCommitList_repo
     }
   }
@@ -46,13 +46,16 @@ class Log extends Component {
       <QueryRenderer
         environment={environment}
         query={LogQuery}
+        variables={{ name: this.props.match.params.repo }}
         render={({error, props}) => {
           if (error) {
             return <div>{error.message}</div>;
           } else if (props) {
             return (
               <div>
-                <span>Branch name: {props.repo.branch}</span>
+                <div>Repository: {this.props.match.params.repo}</div>
+                <div>Branch: {props.repo.currentBranch}</div>
+                <div>!FIX! Requested Branch: {this.props.match.params.branch}</div>
                 <LogCommitList repo={props.repo} />
               </div>
             );

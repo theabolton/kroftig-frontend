@@ -1,0 +1,14 @@
+/* -- add left and right margins to .container-fluid on larger screens ------ */
+
+@media (min-width: 768px) {
+  .fluid-margined {
+    width: 768px;
+  }
+}
+@media (min-width: 896px) {
+  .fluid-margined {
+    max-width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

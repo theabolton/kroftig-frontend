@@ -44,13 +44,17 @@ type PageInfo {
 type Query {
   # The ID of the object
   node(id: ID!): Node
-  repo: Repo
+  repo(name: String!): Repo
+  repos: [Repo]
 }
 
 type Repo implements Node {
   # The ID of the object.
   id: ID!
-  branch: String
+  name: String!
+  path: String!
+  description: String
+  currentBranch: String
   commits(before: String, after: String, first: Int, last: Int): LogCommitConnection
 }
 

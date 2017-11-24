@@ -23,19 +23,29 @@
 
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { Row } from 'react-bootstrap';
 
 import Log from './Log';
 import Navigation from './Navigation';
+import Repos from './Repos';
 
 class App extends Component {
   render() {
-    //      <Route exact path="/create" component={CreateLink}/>
     return (
-      <div className="container-fluid fluid-margined">
+      <div>
         <Navigation />
-        <Switch>
-          <Route exact path="/" component={Log}/>
-        </Switch>
+        <div className="container-fluid fluid-margined">
+          <Row>
+          <Switch>
+            <Route exact path="/browse/:repo([-\w]+)/commits/:branch?" component={Log}/>
+            {/* default view for repo: */}
+            <Route exact path="/browse/:repo([-\w]+)" component={Log}/>
+            <Route exact path="/repos" component={Repos}/>
+            {/* default view for site: */}
+            <Route render={({ location }) => (<div>Hello from {location.pathname}!</div>)}/> {/* !FIX! */}
+          </Switch>
+          </Row>
+        </div>
       </div>
     );
   }

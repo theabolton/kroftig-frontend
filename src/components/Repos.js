@@ -1,4 +1,4 @@
-// Kroftig frontend src/components/Navigation.js
+// Kroftig frontend src/components/Repos.js
 //
 // Copyright © 2017 Sean Bolton.
 //
@@ -23,24 +23,53 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import {
+  QueryRenderer,
+  graphql
+} from 'react-relay';
 
-class Navigation extends Component {
+import environment from '../Environment';
+
+const ReposQuery = graphql`
+  query ReposQuery {
+    repos {
+      name
+      description
+      path
+    }
+  }
+`;
+
+class Repos extends Component {
+
   render() {
     return (
-      <Navbar inverse>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="/">Kroftig</a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Nav>
-          <NavItem eventKey={1} href="/repos">Repositories</NavItem>
-        </Nav>
-      </Navbar>
+      <QueryRenderer
+        environment={environment}
+        query={ReposQuery}
+        render={({error, props}) => {
+          if (error) {
+            return <div>{error.message}</div>;
+          } else if (props) {
+            return (
+              <div>
+                <p>Repositories:</p>
+                <ul>
+                  {props.repos.map((repo) =>
+                    <li key={repo.name}>
+                      Repository: <Link to={'/browse/' + repo.name}>{repo.name}</Link>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            );
+          }
+          return <div>Loading...</div>;
+        }}
+      />
     );
   }
+
 }
 
-export default withRouter(Navigation);
+export default Repos;
