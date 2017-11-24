@@ -11,6 +11,8 @@ type LogCommit implements Node {
 type LogCommitConnection {
   pageInfo: PageInfo!
   edges: [LogCommitEdge]!
+  ref: String
+  refType: String
 }
 
 type LogCommitEdge {
@@ -55,6 +57,6 @@ type Repo implements Node {
   path: String!
   description: String
   currentBranch: String
-  commits(before: String, after: String, first: Int, last: Int): LogCommitConnection
+  commits(ref: String, before: String, after: String, first: Int, last: Int): LogCommitConnection
 }
 

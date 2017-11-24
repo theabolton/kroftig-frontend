@@ -26,15 +26,25 @@ import {
   QueryRenderer,
   graphql
 } from 'react-relay';
+import {
+  Table
+} from 'react-bootstrap';
 
 import environment from '../Environment';
-import LogCommitList from './LogCommitList';
+import LogCommit from './LogCommit';
 
 const LogQuery = graphql`
-  query LogQuery($name: String!) {
+  query LogQuery($name: String! $ref: String) {
     repo(name: $name) {
       currentBranch
-      ...LogCommitList_repo
+      commits(ref: $ref, first: 100) @connection(key: "LogQuery_commits") {
+        ref
+        edges {
+          node {
+            ...LogCommit_commit
+          }
+        }
+      }
     }
   }
 `;
@@ -46,17 +56,26 @@ class Log extends Component {
       <QueryRenderer
         environment={environment}
         query={LogQuery}
-        variables={{ name: this.props.match.params.repo }}
+        variables={{
+          name: this.props.match.params.repo,
+          ref: this.props.match.params.branch,
+        }}
         render={({error, props}) => {
           if (error) {
             return <div>{error.message}</div>;
           } else if (props) {
+            // Worktree Current Branch: {props.repo.currentBranch}
             return (
               <div>
                 <div>Repository: {this.props.match.params.repo}</div>
-                <div>Branch: {props.repo.currentBranch}</div>
-                <div>!FIX! Requested Branch: {this.props.match.params.branch}</div>
-                <LogCommitList repo={props.repo} />
+                <div>Branch/Tag/Rev: {props.repo.commits.ref}</div>
+                <Table condensed style={{width: 'auto'}}>
+                  <tbody>
+                    {props.repo.commits.edges.map(({node}) =>
+                        <LogCommit key={node.__id} commit={node} />
+                    )}
+                  </tbody>
+                </Table>
               </div>
             );
           }
