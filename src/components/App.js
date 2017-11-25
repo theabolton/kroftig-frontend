@@ -25,6 +25,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Row } from 'react-bootstrap';
 
+import Branches from './Branches';
 import Log from './Log';
 import Navigation from './Navigation';
 import Repos from './Repos';
@@ -37,6 +38,7 @@ class App extends Component {
         <div className="container-fluid fluid-margined">
           <Row>
           <Switch>
+            <Route exact path="/browse/:repo([-\w]+)/branches" component={Branches}/>
             <Route exact path="/browse/:repo([-\w]+)/commits/:branch?" component={Log}/>
             {/* default view for repo: */}
             <Route exact path="/browse/:repo([-\w]+)" component={Log}/>

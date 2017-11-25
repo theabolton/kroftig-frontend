@@ -1,3 +1,25 @@
+type Branch implements Node {
+  # The ID of the object.
+  id: ID!
+  name: String
+  message: String
+  rev: String
+  ctime: String
+}
+
+type BranchConnection {
+  pageInfo: PageInfo!
+  edges: [BranchEdge]!
+}
+
+type BranchEdge {
+  # The item at the end of the edge
+  node: Branch
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
 type LogCommit implements Node {
   # The ID of the object.
   id: ID!
@@ -11,8 +33,7 @@ type LogCommit implements Node {
 type LogCommitConnection {
   pageInfo: PageInfo!
   edges: [LogCommitEdge]!
-  ref: String
-  refType: String
+  rev: String
 }
 
 type LogCommitEdge {
@@ -57,6 +78,7 @@ type Repo implements Node {
   path: String!
   description: String
   currentBranch: String
-  commits(ref: String, before: String, after: String, first: Int, last: Int): LogCommitConnection
+  branches(before: String, after: String, first: Int, last: Int): BranchConnection
+  commits(rev: String, before: String, after: String, first: Int, last: Int): LogCommitConnection
 }
 
