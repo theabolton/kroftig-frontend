@@ -34,11 +34,11 @@ import environment from '../Environment';
 import LogCommit from './LogCommit';
 
 const LogQuery = graphql`
-  query LogQuery($name: String! $ref: String) {
+  query LogQuery($name: String! $rev: String) {
     repo(name: $name) {
       currentBranch
-      commits(ref: $ref, first: 100) @connection(key: "LogQuery_commits") {
-        ref
+      commits(rev: $rev, first: 100) @connection(key: "LogQuery_commits") {
+        rev
         edges {
           node {
             ...LogCommit_commit
@@ -58,7 +58,7 @@ class Log extends Component {
         query={LogQuery}
         variables={{
           name: this.props.match.params.repo,
-          ref: this.props.match.params.branch,
+          rev: this.props.match.params.branch,
         }}
         render={({error, props}) => {
           if (error) {
@@ -68,7 +68,7 @@ class Log extends Component {
             return (
               <div>
                 <div>Repository: {this.props.match.params.repo}</div>
-                <div>Branch/Tag/Rev: {props.repo.commits.ref}</div>
+                <div>Branch/Tag/Rev: {props.repo.commits.rev || props.repo.currentBranch}</div>
                 <Table condensed style={{width: 'auto'}}>
                   <tbody>
                     {props.repo.commits.edges.map(({node}) =>
