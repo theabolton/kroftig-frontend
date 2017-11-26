@@ -80,5 +80,29 @@ type Repo implements Node {
   currentBranch: String
   branches(before: String, after: String, first: Int, last: Int): BranchConnection
   commits(rev: String, before: String, after: String, first: Int, last: Int): LogCommitConnection
+  tree(rev: String, before: String, after: String, first: Int, last: Int): Tree
+}
+
+type Tree {
+  pageInfo: PageInfo!
+  edges: [TreeEdge]!
+}
+
+type TreeEdge {
+  # The item at the end of the edge
+  node: TreeEntry
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+type TreeEntry implements Node {
+  # The ID of the object.
+  id: ID!
+  oid: String
+  name: String
+  filemode: Int
+  type: String
+  size: Int
 }
 

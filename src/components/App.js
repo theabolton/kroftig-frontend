@@ -29,6 +29,7 @@ import Branches from './Branches';
 import Log from './Log';
 import Navigation from './Navigation';
 import Repos from './Repos';
+import Tree from './Tree';
 
 class App extends Component {
   render() {
@@ -40,6 +41,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/browse/:repo([-\w]+)/branches" component={Branches}/>
             <Route exact path="/browse/:repo([-\w]+)/commits/:branch?" component={Log}/>
+            <Route exact path="/browse/:repo([-\w]+)/tree/:branch?" component={Tree}/>
             {/* default view for repo: */}
             <Route exact path="/browse/:repo([-\w]+)" component={Log}/>
             <Route exact path="/repos" component={Repos}/>

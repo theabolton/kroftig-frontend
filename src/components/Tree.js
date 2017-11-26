@@ -1,4 +1,4 @@
-// Kroftig frontend src/components/Branches.js
+// Kroftig frontend src/components/Tree.js
 //
 // Copyright © 2017 Sean Bolton.
 //
@@ -26,18 +26,18 @@ import {
   QueryRenderer,
   graphql
 } from 'react-relay';
-import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 
 import environment from '../Environment';
+import TreeEntry from './TreeEntry';
 
-const BranchesQuery = graphql`
-  query BranchesQuery($name: String!) {
+const TreeQuery = graphql`
+  query TreeQuery($name: String! $rev: String!) {
     repo(name: $name) {
-      branches(first: 100) @connection(key: "BranchesQuery_branches") {
+      tree(rev: $rev first: 100) @connection(key: "TreeQuery_tree") {
         edges {
           node {
-            name
+            ...TreeEntry_entry
           }
         }
       }
@@ -45,31 +45,30 @@ const BranchesQuery = graphql`
   }
 `;
 
-class Branches extends Component {
+class Tree extends Component {
 
   render() {
     return (
       <QueryRenderer
         environment={environment}
-        query={BranchesQuery}
-        variables={{ name: this.props.match.params.repo }}
+        query={TreeQuery}
+        variables={{
+          name: this.props.match.params.repo,
+          rev: this.props.match.params.branch,
+        }}
         render={({error, props}) => {
           if (error) {
             return <div>{error.message}</div>;
           } else if (props) {
-            let repo = this.props.match.params.repo
+            let repo = this.props.match.params.repo;
             return (
               <div>
-                <div>Repository: {this.props.match.params.repo}</div>
-                <div>Branches:</div>
+                <div>Repository: {repo}</div>
+                <div>Tree Rev: {this.props.match.params.branch}</div>
                 <Table condensed style={{width: 'auto'}}>
                   <tbody>
-                    {props.repo.branches.edges.map(({node}) =>
-                        <tr key={node.__id}>
-                          <td>{node.name}</td>
-                          <td><Link to={`/browse/${repo}/commits/${node.name}`}>log</Link></td>
-                          <td><Link to={`/browse/${repo}/tree/${node.name}`}>tree</Link></td>
-                        </tr>
+                    {props.repo.tree.edges.map(({node}) =>
+                      <TreeEntry key={node.__id} repo={repo} entry={node} />
                     )}
                   </tbody>
                 </Table>
@@ -84,4 +83,4 @@ class Branches extends Component {
 
 }
 
-export default Branches;
+export default Tree;
