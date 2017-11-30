@@ -40,7 +40,7 @@ class LogCommit extends Component {
         <td><samp>{this.props.commit.oid.slice(0,7)}</samp></td>
         <td>{this.props.commit.message}</td>
         <td>{author}</td>
-        <td>{this.props.commit.atime}</td>
+        <td>{this.props.commit.authorTime}</td>
       </tr>
     );
   }
@@ -48,11 +48,11 @@ class LogCommit extends Component {
 }
 
 export default createFragmentContainer(LogCommit, graphql`
-  fragment LogCommit_commit on LogCommit {
+  fragment LogCommit_commit on Commit {
     oid
     message
     author
     committer
-    atime
+    authorTime
   }
 `);
