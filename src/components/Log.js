@@ -65,14 +65,15 @@ class Log extends Component {
             return <div>{error.message}</div>;
           } else if (props) {
             // Worktree Current Branch: {props.repo.currentBranch}
+            let repo_name = this.props.match.params.repo;
             return (
               <div>
-                <div>Repository: {this.props.match.params.repo}</div>
+                <div>Repository: {repo_name}</div>
                 <div>Branch/Tag/Rev: {props.repo.commits.rev || props.repo.currentBranch}</div>
                 <Table condensed style={{width: 'auto'}}>
                   <tbody>
                     {props.repo.commits.edges.map(({node}) =>
-                        <LogCommit key={node.__id} commit={node} />
+                        <LogCommit key={node.__id} repo={repo_name} commit={node} />
                     )}
                   </tbody>
                 </Table>

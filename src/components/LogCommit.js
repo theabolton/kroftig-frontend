@@ -26,6 +26,7 @@ import {
   createFragmentContainer,
   graphql
 } from 'react-relay';
+import { Link } from 'react-router-dom';
 
 class LogCommit extends Component {
 
@@ -37,7 +38,9 @@ class LogCommit extends Component {
     }
     return (
       <tr>
-        <td><samp>{this.props.commit.oid.slice(0,7)}</samp></td>
+        <td><Link to={`/browse/${this.props.repo}/commit/${this.props.commit.oid}`}>
+          <samp>{this.props.commit.oid.slice(0,7)}</samp>
+        </Link></td>
         <td>{this.props.commit.message}</td>
         <td>{author}</td>
         <td>{this.props.commit.authorTime}</td>

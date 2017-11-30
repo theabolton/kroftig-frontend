@@ -26,6 +26,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Row } from 'react-bootstrap';
 
 import Branches from './Branches';
+import FullCommit from './FullCommit';
 import Log from './Log';
 import Navigation from './Navigation';
 import Repos from './Repos';
@@ -40,6 +41,7 @@ class App extends Component {
           <Row>
           <Switch>
             <Route exact path="/browse/:repo([-\w]+)/branches" component={Branches}/>
+            <Route exact path="/browse/:repo([-\w]+)/commit/:rev" component={FullCommit}/>
             <Route exact path="/browse/:repo([-\w]+)/commits/:branch?" component={Log}/>
             <Route exact path="/browse/:repo([-\w]+)/tree/:branch?" component={Tree}/>
             {/* default view for repo: */}
