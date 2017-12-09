@@ -58,7 +58,7 @@ class Log extends Component {
         query={LogQuery}
         variables={{
           name: this.props.match.params.repo,
-          rev: this.props.match.params.branch,
+          rev: this.props.match.params.rev,
         }}
         render={({error, props}) => {
           if (error) {

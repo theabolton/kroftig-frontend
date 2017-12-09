@@ -39,11 +39,28 @@ class TreeEntry extends Component {
     let perms = '';
     let size = '';
     if (entry.type === 'tree' && entry.filemode === 16384) {
-      glyph = <Glyphicon glyph="folder-open" />;
+      let link = `/browse/${this.props.repo}/tree/${this.props.rev}`;
+      if (this.props.path) {
+        link += '/' + this.props.path;
+      }
+      link += '/' + name;
+      return (
+        <tr key={entry.__id}>
+          <td><Glyphicon glyph="folder-open" /></td>
+          <td><Link to={link}>{name}</Link></td>
+          <td></td>
+          <td></td>
+        </tr>
+      );
     } else if (entry.type === 'commit' && entry.filemode === 57344) {
       // git submodule
       name = name + ' @ ' + entry.oid.slice(0,7);
       glyph = <Glyphicon glyph="folder-close" />;
+    } else if (entry.type === 'blob' && entry.filemode === 40960) {
+      // -FIX- symlinks: would be nice to see what it's linking to. see abcdb:static/dagre-d3.min.js
+      glyph = <Glyphicon glyph="share-alt" />;
+      perms = 'symlink';
+      size = entry.size;
     } else if (entry.type === 'blob') {
       glyph = <Glyphicon glyph="file" />;
       perms = filemodeToString(entry.filemode);

@@ -32,9 +32,9 @@ import environment from '../Environment';
 import TreeEntry from './TreeEntry';
 
 const TreeQuery = graphql`
-  query TreeQuery($name: String! $rev: String!) {
+  query TreeQuery($name: String! $rev: String! $path: String) {
     repo(name: $name) {
-      tree(rev: $rev first: 100) @connection(key: "TreeQuery_tree") {
+      tree(rev: $rev path: $path first: 100) @connection(key: "TreeQuery_tree") {
         edges {
           node {
             ...TreeEntry_entry
@@ -54,21 +54,25 @@ class Tree extends Component {
         query={TreeQuery}
         variables={{
           name: this.props.match.params.repo,
-          rev: this.props.match.params.branch,
+          rev: this.props.match.params.rev,
+          path: this.props.match.params.path,
         }}
         render={({error, props}) => {
           if (error) {
             return <div>{error.message}</div>;
           } else if (props) {
             let repo = this.props.match.params.repo;
+            let rev = this.props.match.params.rev;
+            let path = this.props.match.params.path;
             return (
               <div>
                 <div>Repository: {repo}</div>
-                <div>Tree Rev: {this.props.match.params.branch}</div>
+                <div>Branch/Tag/Rev: {rev}</div>
+                <div>Path: {path ? path : '/'}</div>
                 <Table condensed style={{width: 'auto'}}>
                   <tbody>
                     {props.repo.tree.edges.map(({node}) =>
-                      <TreeEntry key={node.__id} repo={repo} entry={node} />
+                      <TreeEntry key={node.__id} repo={repo} rev={rev} path={path} entry={node} />
                     )}
                   </tbody>
                 </Table>

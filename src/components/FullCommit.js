@@ -73,12 +73,13 @@ class FullCommit extends Component {
             return <div>{error.message}</div>;
           } else if (props) {
             let repo_name = this.props.match.params.repo;
+            let rev = this.props.match.params.rev;
             let commit = props.repo.commit;
             return (
               <div>
                 <div>Repository: {repo_name}</div>
-                { this.props.match.params.rev !== commit.oid ?
-                  <div>Branch/Tag/Ref: {this.props.match.params.rev}</div> :
+                { rev !== commit.oid ?
+                  <div>Branch/Tag/Rev: {rev}</div> :
                   ''
                 }
                 <Table condensed style={{width: 'auto'}}>
@@ -107,7 +108,13 @@ class FullCommit extends Component {
                 <Table condensed style={{width: 'auto'}}>
                   <tbody>
                     {commit.tree.edges.map(({node}) =>
-                      <TreeEntry key={node.__id} repo={repo_name} entry={node} />
+                      <TreeEntry
+                        key={node.__id}
+                        repo={repo_name}
+                        rev={rev}
+                        path={''}
+                        entry={node}
+                      />
                     )}
                   </tbody>
                 </Table>

@@ -42,8 +42,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/browse/:repo([-\w]+)/branches" component={Branches}/>
             <Route exact path="/browse/:repo([-\w]+)/commit/:rev" component={FullCommit}/>
-            <Route exact path="/browse/:repo([-\w]+)/commits/:branch?" component={Log}/>
-            <Route exact path="/browse/:repo([-\w]+)/tree/:branch?" component={Tree}/>
+            <Route exact path="/browse/:repo([-\w]+)/commits/:rev?" component={Log}/>
+            <Route exact path="/browse/:repo([-\w]+)/tree/:rev?/:path*" component={Tree}/>
             {/* default view for repo: */}
             <Route exact path="/browse/:repo([-\w]+)" component={Log}/>
             <Route exact path="/repos" component={Repos}/>

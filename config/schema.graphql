@@ -37,18 +37,31 @@ type Commit implements Node {
   tree(before: String, after: String, first: Int, last: Int): Tree
 }
 
-type LogCommitConnection {
+type CommitConnection {
   pageInfo: PageInfo!
-  edges: [LogCommitEdge]!
+  edges: [CommitEdge]!
   rev: String
 }
 
-type LogCommitEdge {
+type CommitEdge {
   # The item at the end of the edge
   node: Commit
 
   # A cursor for use in pagination
   cursor: String!
+}
+
+type LogIn {
+  user: User
+}
+
+type LogOut {
+  success: Boolean
+}
+
+type Mutation {
+  logIn(username: String, password: String): LogIn
+  logOut: LogOut
 }
 
 # An object with an ID
@@ -76,6 +89,8 @@ type Query {
   node(id: ID!): Node
   repo(name: String!): Repo
   repos: [Repo]
+  user: User
+  users: [User]
 }
 
 type Repo implements Node {
@@ -87,8 +102,8 @@ type Repo implements Node {
   currentBranch: String
   branches(before: String, after: String, first: Int, last: Int): BranchConnection
   commit(rev: String!): Commit
-  commits(rev: String, before: String, after: String, first: Int, last: Int): LogCommitConnection
-  tree(rev: String, before: String, after: String, first: Int, last: Int): Tree
+  commits(rev: String, before: String, after: String, first: Int, last: Int): CommitConnection
+  tree(rev: String!, path: String, before: String, after: String, first: Int, last: Int): Tree
 }
 
 type Tree {
@@ -112,5 +127,19 @@ type TreeEntry implements Node {
   filemode: Int
   type: String
   size: Int
+}
+
+type User {
+  # Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+  username: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+
+  # Designates whether the user can log into this admin site.
+  isStaff: Boolean!
+
+  # Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
+  isActive: Boolean!
 }
 
