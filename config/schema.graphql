@@ -127,6 +127,7 @@ type TreeEntry implements Node {
   filemode: Int
   type: String
   size: Int
+  latestCommit: Commit
 }
 
 type User {

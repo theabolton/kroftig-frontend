@@ -38,6 +38,8 @@ class TreeEntry extends Component {
     let glyph;
     let perms = '';
     let size = '';
+    let message = '';
+    let time = '';
 
     if (entry.type === 'tree') {
 
@@ -50,6 +52,8 @@ class TreeEntry extends Component {
         <tr key={entry.__id}>
           <td><Glyphicon glyph="folder-open" /></td>
           <td><Link to={link}>{name}</Link></td>
+          <td></td>
+          <td></td>
           <td></td>
           <td></td>
         </tr>
@@ -70,6 +74,8 @@ class TreeEntry extends Component {
       glyph = <Glyphicon glyph="file" />;
       perms = filemodeToString(entry.filemode);
       size = entry.size;
+      message = entry.latestCommit.message;
+      time = entry.latestCommit.committerTime;
 
     } else { // unknown
 
@@ -81,6 +87,8 @@ class TreeEntry extends Component {
       <tr key={entry.__id}>
         <td>{glyph}</td>
         <td><Link to={`/browse/${this.props.repo}/blob/${entry.oid}`}>{name}</Link></td>
+        <td>{message}</td>
+        <td>{time}</td>
         <td>{perms}</td>
         <td className="text-right">{size}</td>
       </tr>
@@ -96,5 +104,9 @@ export default createFragmentContainer(TreeEntry, graphql`
     filemode
     type
     size
+    latestCommit {
+      message
+      committerTime
+    }
   }
 `);
