@@ -26,6 +26,7 @@ import {
   QueryRenderer,
   graphql
 } from 'react-relay';
+import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 
 import environment from '../Environment';
@@ -64,11 +65,26 @@ class Tree extends Component {
             let repo = this.props.match.params.repo;
             let rev = this.props.match.params.rev;
             let path = this.props.match.params.path;
+            let pathComps = '/';
+            if (path) {
+              let link = `/browse/${repo}/tree/${rev}`;
+              pathComps = [(<Link to={link}>&lt;root&gt;</Link>)];
+              let path_array = path.split('/');
+              for (let i = 0; i < path_array.length; i++) {
+                pathComps.push(' / ');
+                if (i + 1 < path_array.length) {
+                  link += '/' + path_array[i];
+                  pathComps.push(<Link to={link}>{path_array[i]}</Link>);
+                } else {
+                  pathComps.push(path_array[i]);
+                }
+              }
+            }
             return (
               <div>
                 <div>Repository: {repo}</div>
                 <div>Branch/Tag/Rev: {rev}</div>
-                <div>Path: {path ? path : '/'}</div>
+                <div>Path: {pathComps}</div>
                 <Table condensed style={{width: 'auto'}}>
                   <tbody>
                     {props.repo.tree.edges.map(({node}) =>
