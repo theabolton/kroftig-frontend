@@ -37,7 +37,7 @@ const BranchesQuery = graphql`
       branches(first: 100) @connection(key: "BranchesQuery_branches") {
         edges {
           node {
-            name
+            name message rev ctime
           }
         }
       }
@@ -62,11 +62,14 @@ class Branches extends Component {
               <div>
                 <div>Repository: {this.props.match.params.repo}</div>
                 <div>Branches:</div>
-                <Table condensed style={{width: 'auto'}}>
+                <Table style={{width: 'auto'}}>
                   <tbody>
                     {props.repo.branches.edges.map(({node}) =>
                         <tr key={node.__id}>
                           <td>{node.name}</td>
+                          <td>{node.rev.slice(0,7)}</td>
+                          <td>{node.message}</td>
+                          <td>{node.ctime}</td>
                           <td><Link to={`/browse/${repo}/commits/${node.name}`}>log</Link></td>
                           <td><Link to={`/browse/${repo}/tree/${node.name}`}>tree</Link></td>
                         </tr>
