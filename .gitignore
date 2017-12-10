@@ -4,6 +4,7 @@ config/*
 
 # Babel/React
 src/components/__generated__/
+src/mutations/__generated__/
 
 # dependencies
 /node_modules

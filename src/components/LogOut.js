@@ -1,4 +1,4 @@
-// Kroftig frontend src/components/Navigation.js
+// Kroftig frontend src/components/LogOut.js
 //
 // Copyright © 2017 Sean Bolton.
 //
@@ -21,26 +21,22 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import React, { Component } from 'react';
-import { withRouter } from 'react-router';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import { Component } from 'react';
 
-class Navigation extends Component {
+import LogOutMutation from '../mutations/LogOutMutation';
+
+class LogOut extends Component {
+
+  componentDidMount() {
+    LogOutMutation(success => {
+      //console.log('LogOut status: ' + success);
+      this.props.history.push(`/login`);
+    });
+  }
+
   render() {
-    return (
-      <Navbar inverse>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="/">Kroftig</a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Nav>
-          <NavItem eventKey={1} href="/repos">Repositories</NavItem>
-          <NavItem eventKey={2} href="/logout">Log Out</NavItem>
-        </Nav>
-      </Navbar>
-    );
+    return null;
   }
 }
 
-export default withRouter(Navigation);
+export default LogOut;

@@ -28,6 +28,8 @@ import { Row } from 'react-bootstrap';
 import Branches from './Branches';
 import FullCommit from './FullCommit';
 import Log from './Log';
+import LogIn from './LogIn';
+import LogOut from './LogOut';
 import Navigation from './Navigation';
 import Repos from './Repos';
 import Tree from './Tree';
@@ -46,6 +48,8 @@ class App extends Component {
             <Route exact path="/browse/:repo([-\w]+)/tree/:rev?/:path*" component={Tree}/>
             {/* default view for repo: */}
             <Route exact path="/browse/:repo([-\w]+)" component={Log}/>
+            <Route exact path='/login' component={LogIn}/>
+            <Route exact path='/logout' component={LogOut}/>
             <Route exact path="/repos" component={Repos}/>
             {/* default view for site: */}
             <Route render={({ location }) => (<div>Hello from {location.pathname}!</div>)}/> {/* !FIX! */}

@@ -51,17 +51,29 @@ type CommitEdge {
   cursor: String!
 }
 
-type LogIn {
-  user: User
+input LogInInput {
+  username: String!
+  password: String!
+  clientMutationId: String
 }
 
-type LogOut {
+type LogInPayload {
+  user: User
+  clientMutationId: String
+}
+
+input LogOutInput {
+  clientMutationId: String
+}
+
+type LogOutPayload {
   success: Boolean
+  clientMutationId: String
 }
 
 type Mutation {
-  logIn(username: String, password: String): LogIn
-  logOut: LogOut
+  logIn(input: LogInInput!): LogInPayload
+  logOut(input: LogOutInput!): LogOutPayload
 }
 
 # An object with an ID
@@ -131,6 +143,8 @@ type TreeEntry implements Node {
 }
 
 type User {
+  id: ID!
+
   # Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
   username: String!
   firstName: String!

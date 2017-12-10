@@ -1,4 +1,4 @@
-// Kroftig frontend src/components/Navigation.js
+// Kroftig frontend src/mutations/LogOutMutation.js
 //
 // Copyright © 2017 Sean Bolton.
 //
@@ -21,26 +21,34 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import React, { Component } from 'react';
-import { withRouter } from 'react-router';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import {
+  commitMutation,
+  graphql
+} from 'react-relay';
+import environment from '../Environment';
 
-class Navigation extends Component {
-  render() {
-    return (
-      <Navbar inverse>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="/">Kroftig</a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Nav>
-          <NavItem eventKey={1} href="/repos">Repositories</NavItem>
-          <NavItem eventKey={2} href="/logout">Log Out</NavItem>
-        </Nav>
-      </Navbar>
-    );
+const mutation = graphql`
+  mutation LogOutMutation {
+    logOut(input: {}) { success }
   }
-}
+`;
 
-export default withRouter(Navigation);
+export default (callback) => {
+  const variables = {
+    input: {
+      clientMutationId: '',
+    },
+  };
+
+  commitMutation(
+    environment,
+    {
+      mutation,
+      variables,
+      onCompleted: payload => {
+        callback(payload.success);
+      },
+      onError: err => console.error(err),
+    },
+  );
+};
