@@ -43,15 +43,10 @@ Installation
    $ npm install
    $ npm start
 
-Once the development server is running, point your browser at:
+That last command will start the development server, and open a browser window which will load the
+app from:
 
-http://localhost:8000/
-
-The backend server also includes the GraphiQL_ schema-browser IDE, which can be accessed via:
-
-http://localhost:8000/graphql/
-
-.. _GraphiQL: https://github.com/graphql/graphiql
+http://localhost:3000/
 
 License
 =======
